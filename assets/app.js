@@ -12,7 +12,7 @@ const fields = [
  ['04','Advanced Semiconductor<br>Packaging','PACKAGING','Investigating electromagnetic challenges in advanced packaging.'],
  ['05','Wireless<br>Power Transfer','WPT','Exploring wireless energy transfer and its electromagnetic characteristics.']
 ];
-const researchRows = () => fields.map(([n,title,tag,desc]) => `<a class="research-row" href="research.html#field-${n}"><span class="row-number">${n}</span><h3>${title}</h3><p>${desc}</p><span class="row-arrow">↗</span></a>`).join('');
+const researchRows = () => fields.map(([n,title,tag,desc]) => `<a class="research-row" href="research.html#field-${n}"><span class="card-visual visual-${n}" aria-hidden="true"><i></i><b></b><em></em></span><span class="row-number">RESEARCH TOPIC / ${n}</span><h3>${title}</h3><p>${desc}</p><span class="row-arrow"><span>EXPLORE RESEARCH</span> ↗</span></a>`).join('');
 const sectionHead = (label,title,link,href) => `<div class="section-head"><div><p class="eyebrow blue">${label}</p><h2>${title}</h2></div>${link ? `<a class="text-link" href="${href}">${link} ${arrow}</a>` : ''}</div>`;
 const newsItem = item => `<article class="news-item"><div class="news-meta"><span>${esc(item.category || 'NEWS')}</span><time>${esc(item.date || '')}</time></div><h3>${esc(item.title)}</h3><p>${esc(item.summary || '')}</p>${safeUrl(item.url) ? `<a class="text-link" href="${safeUrl(item.url)}" target="_blank" rel="noopener noreferrer">Read more ${arrow}</a>` : ''}</article>`;
 async function getData(name) { try { const response = await fetch(`data/${name}.json`); if (!response.ok) throw Error(response.status); const data = await response.json(); if (!Array.isArray(data)) throw Error('Invalid data'); return data; } catch (e) { console.error(`Could not load ${name}:`, e); return null; } }
@@ -41,4 +41,28 @@ async function render() {
  }
 }
 const toggle=document.querySelector('.menu-toggle'), nav=document.querySelector('#navigation'); toggle.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')==='true';toggle.setAttribute('aria-expanded',String(!open));nav.classList.toggle('open',!open)}); document.addEventListener('keydown',e=>{if(e.key==='Escape'){toggle.setAttribute('aria-expanded','false');nav.classList.remove('open')}}); const current=document.querySelector(`#navigation a[href="${page==='index'?'index':page}.html"]`); if(current) current.setAttribute('aria-current','page');
-render();
+render().then(() => {
+  // Pointer effects are decorative and are never required for navigation.
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const hero = document.querySelector('.hero');
+  if (hero) {
+    hero.addEventListener('pointermove', event => {
+      const rect = hero.getBoundingClientRect();
+      hero.style.setProperty('--pointer-x', `${((event.clientX - rect.left) / rect.width * 100).toFixed(2)}%`);
+      hero.style.setProperty('--pointer-y', `${((event.clientY - rect.top) / rect.height * 100).toFixed(2)}%`);
+      hero.style.setProperty('--shift-x', `${((event.clientX - rect.left) / rect.width - .5) * 22}px`);
+      hero.style.setProperty('--shift-y', `${((event.clientY - rect.top) / rect.height - .5) * 18}px`);
+    });
+    hero.addEventListener('pointerleave', () => {
+      hero.style.removeProperty('--pointer-x'); hero.style.removeProperty('--pointer-y');
+      hero.style.removeProperty('--shift-x'); hero.style.removeProperty('--shift-y');
+    });
+  }
+  document.querySelectorAll('.research-row').forEach(card => {
+    card.addEventListener('pointermove', event => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--card-x', `${((event.clientX - rect.left) / rect.width * 100).toFixed(2)}%`);
+      card.style.setProperty('--card-y', `${((event.clientY - rect.top) / rect.height * 100).toFixed(2)}%`);
+    });
+  });
+});
