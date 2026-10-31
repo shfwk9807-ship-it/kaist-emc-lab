@@ -1,0 +1,177 @@
+media:
+  input: assets/images
+  output: assets/images
+content:
+  - name: publications
+    label: 논문 및 특허
+    type: collection
+    path: _data/publications
+    format: json
+    filename:
+      template: "{year}-{month}-{day}-{hour}-{minute}-{second}-{primary}.json"
+      field: create
+    view:
+      primary: title
+      fields: [title, year, type]
+      sort: year
+      order: desc
+    fields:
+      - name: title
+        label: 제목
+        type: string
+        required: true
+      - name: authors
+        label: 저자
+        type: string
+        required: true
+      - name: venue
+        label: 학술지 또는 학회
+        type: string
+        required: true
+      - name: year
+        label: 연도
+        type: number
+        required: true
+      - name: type
+        label: 분류
+        type: select
+        required: true
+        options:
+          values: [International Journal Papers, International Conference Papers, Domestic Publications, Patents]
+      - name: doi
+        label: DOI
+        type: string
+        required: false
+  - name: news
+    label: 뉴스
+    type: collection
+    path: _data/news
+    format: json
+    filename:
+      template: "{year}-{month}-{day}-{hour}-{minute}-{second}-{primary}.json"
+      field: create
+    view:
+      primary: title
+      fields: [title, date, category]
+      sort: date
+      order: desc
+    fields:
+      - name: title
+        label: 제목
+        type: string
+        required: true
+      - name: date
+        label: 날짜
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: category
+        label: 분류
+        type: select
+        required: true
+        options:
+          values: [NEWS, PUBLICATION, CONFERENCE, AWARD, EVENT]
+      - name: summary
+        label: 내용 요약
+        type: text
+        required: true
+      - name: url
+        label: 외부 링크 (선택)
+        type: string
+        required: false
+  - name: members
+    label: 구성원
+    type: file
+    path: data/members.json
+    format: json
+    list: true
+    fields:
+      - name: group
+        label: 소속 분류
+        type: select
+        required: true
+        options:
+          values: [Professor, Ph.D. Students, M.S. Students, Alumni]
+      - name: name
+        label: 이름
+        type: string
+        required: true
+      - name: degree
+        label: 학위 과정
+        type: string
+        required: false
+      - name: research
+        label: 연구 분야
+        type: string
+        required: false
+      - name: email
+        label: 이메일
+        type: string
+        required: false
+      - name: photo
+        label: 사진
+        type: image
+        required: false
+  - name: projects
+    label: 프로젝트
+    type: file
+    path: data/projects.json
+    format: json
+    list: true
+    fields:
+      - name: title
+        label: 프로젝트명
+        type: string
+        required: true
+      - name: status
+        label: 상태
+        type: select
+        required: true
+        options:
+          values: [Ongoing Projects, Completed Projects]
+      - name: period
+        label: 연구 기간
+        type: string
+        required: false
+      - name: description
+        label: 연구 내용
+        type: text
+        required: false
+      - name: institution
+        label: 관련 기관
+        type: string
+        required: false
+  - name: announcement
+    label: 공지 팝업
+    type: file
+    path: data/announcement.json
+    format: json
+    fields:
+      - name: enabled
+        label: 공지 표시
+        type: boolean
+      - name: id
+        label: 공지 고유 번호 (새 공지마다 변경)
+        type: string
+        required: true
+      - name: title
+        label: 공지 제목
+        type: string
+        required: true
+      - name: message
+        label: 공지 내용
+        type: text
+        required: true
+      - name: link_text
+        label: 링크 문구
+        type: string
+        required: false
+      - name: link_url
+        label: 링크 주소
+        type: string
+        required: false
+      - name: dismiss_hours
+        label: 다시 보지 않기 시간
+        type: number
+        required: true

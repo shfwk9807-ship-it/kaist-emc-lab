@@ -1,0 +1,9 @@
+{
+  "enabled": true,
+  "id": "welcome-2026-02",
+  "title": "Lab notice",
+  "message": "Lab announcements will be posted here.",
+  "link_text": "",
+  "link_url": "",
+  "dismiss_hours": 24
+}

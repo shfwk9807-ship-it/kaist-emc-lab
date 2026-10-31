@@ -1,7 +1,7 @@
 const page = document.body.dataset.page;
 const main = document.querySelector('#main');
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const safeUrl = value => { try { const u = new URL(value, location.href); return ['http:', 'https:'].includes(u.protocol) ? esc(u.href) : ''; } catch { return ''; } };
+const safeUrl = value => { if (typeof value !== 'string' || !value.trim()) return ''; try { const u = new URL(value, location.href); return ['http:', 'https:'].includes(u.protocol) ? esc(u.href) : ''; } catch { return ''; } };
 const arrow = '<span aria-hidden="true">↗</span>';
 const intro = (label, title, text) => `<section class="page-hero"><div class="wrap"><div class="breadcrumb"><a href="index.html">HOME</a><span>/</span>${esc(label.toUpperCase())}</div><div class="page-heading"><p class="eyebrow blue">${esc(label)}</p><h1>${title}</h1><p>${text}</p></div></div></section>`;
 const empty = text => `<div class="empty"><span class="empty-symbol">+</span><p>${text}</p></div>`;

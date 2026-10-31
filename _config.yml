@@ -1,0 +1,9 @@
+title: KAIST EMC Lab
+exclude:
+  - README.md
+  - scripts
+  - tests
+  - docs
+  - Gemfile
+  - Gemfile.lock
+  - .previous-local-design
