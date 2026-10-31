@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 with tempfile.TemporaryDirectory(prefix='emclab-build-') as tmp:
     work = Path(tmp) / 'source'
-    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns('.git', '.backups', '.previous-local-design', '_site', '__pycache__', '.bundle'))
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns('.git', '.backups', '.previous-local-design', '_site', '__pycache__', '.bundle', 'vendor', '.upload-stage'))
     paper = {'title': 'Synthetic CI paper', 'authors': 'Test Author', 'venue': 'Test Venue',
              'year': 2024, 'type': 'International Journal Papers', 'doi': '10.1234/example'}
     news = {'title': 'Synthetic CI news', 'date': '2024-05-09', 'category': 'NEWS', 'summary': 'Test'}

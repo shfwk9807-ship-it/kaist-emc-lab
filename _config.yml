@@ -7,3 +7,5 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - .previous-local-design
+  - vendor
+  - .upload-stage
