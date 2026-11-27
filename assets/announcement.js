@@ -1,5 +1,6 @@
 (() => {
   'use strict';
+  if (document.body.dataset.page !== 'index') return;
   const readDismissed = key => { try { return Number(localStorage.getItem(key) || 0); } catch { return 0; } };
   const writeDismissed = (key, until) => { try { localStorage.setItem(key, String(until)); } catch { /* The notice will reappear on the next page. */ } };
   function safeLink(value) {
