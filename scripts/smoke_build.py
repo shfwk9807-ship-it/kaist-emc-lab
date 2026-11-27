@@ -21,5 +21,5 @@ with tempfile.TemporaryDirectory(prefix='emclab-build-') as tmp:
         assert record in result, f'{kind} entry missing from built JSON'
     for page in ['index', 'professor', 'members', 'research', 'publications', 'projects', 'news', 'contact']:
         html = (out / f'{page}.html').read_text(encoding='utf-8-sig')
-        assert f'data-page="{page}"' in html and 'assets/announcement.js' in html, page
+        assert f'data-page="{page}"' in html and (('assets/announcement.js' in html) == (page == 'index')), page
     print('Jekyll build and generated content passed.')
